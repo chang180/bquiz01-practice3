@@ -12,7 +12,14 @@
                 <?php
                 $table=$do;
     $db=new DB($table);
-    $rows=$db->all();
+   
+    $total = $db->count("");
+    $num = 3;
+    $pages = ceil($total / $num);
+    $now = $_GET['p'] ?? 1;
+    $start = ($now-1)*$num;
+
+    $rows = $db->all("", " limit $start,$num");
     foreach($rows as $row){
         
         ?>
@@ -27,6 +34,22 @@
                 ?>
             </tbody>
         </table>
+        <div class="cent">
+            <?php
+            // echo $now,$pages,$total;
+            if (($now - 1) > 0) {
+                echo "<a href='?do=$table&p=" . ($now - 1) . "' style='text-decoration:none;font-size:30px'> < </a>";
+            }
+            for ($i = 1; $i <= $pages; $i++) {
+                $fontsize = ($now == $i) ? "30px" : "20px";
+                echo "<a href='?do=$table&p=$i' style='text-decoration:none;font-size:$fontsize'>$i</a>";
+            }
+            if (($now + 1) <= $pages) {
+                echo "<a href='?do=$table&p=" . ($now + 1) . "' style='text-decoration:none;font-size:30px'> > </a>";
+            }
+
+            ?>
+        </div>
         <table style="margin-top:40px; width:70%;">
             <tbody>
                 <tr>

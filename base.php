@@ -21,6 +21,7 @@ class DB
             $sql .= " WHERE " . implode(" && ", $tmp);
         }
         $sql.=$arg[1]??"";
+        // echo $sql;
         return $this->pdo->query($sql)->fetchAll();
     }
 
@@ -30,6 +31,7 @@ class DB
             foreach($arg as $k=>$v) $tmp[]="`$k`='$v'";
             $sql.=" WHERE ".implode(" && ",$tmp);
         }else $sql.=" WHERE `id`='$arg'";
+        // echo $sql;
         return $this->pdo->exec($sql);
     }
 
@@ -47,8 +49,9 @@ class DB
         if(is_array($arg[0])){
             foreach ($arg[0] as $k=>$v) $tmp[]="`$k`='$v'";
             $sql.=" WHERE ".implode(" && ",$tmp);
-        }else $sql.=" WHERE `id`='$arg[0]'";
+        }
         $sql.=$arg[1]??"";
+        // echo $sql;
         return $this->pdo->query($sql)->fetchColumn();
     }
 
